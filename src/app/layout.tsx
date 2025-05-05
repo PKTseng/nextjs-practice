@@ -4,9 +4,9 @@ import Link from 'next/link'
 import React from 'react'
 
 const roboto = Roboto({
-  weight: ['400', '700'], // 載入多個字重
-  subsets: ['latin'], // 指定字符子集
-  display: 'swap', // 字體顯示策略
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  display: 'swap',
 })
 
 const navItems = [
@@ -16,7 +16,15 @@ const navItems = [
   { href: '/about', label: 'About' },
 ]
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+  sidebar,
+  modal,
+}: {
+  children: React.ReactNode
+  sidebar: React.ReactNode
+  modal: React.ReactNode
+}) {
   return (
     <html lang="zh-TW">
       <body className={`min-h-screen bg-gray-50 flex flex-col ${roboto.className}`}>
@@ -40,8 +48,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </nav>
         </header>
 
-        {/* 主要內容區 */}
-        <main className="flex-grow">{children}</main>
+        {/* 主要內容區 - 使用平行路由 */}
+        <div className="flex flex-grow">
+          {/* 側邊欄插槽 */}
+          <div className="w-64 bg-white shadow-sm">{sidebar}</div>
+
+          {/* 主內容區 */}
+          <main className="flex-grow p-4">{children}</main>
+        </div>
+
+        {/* 模態視窗插槽 */}
+        {modal}
 
         {/* 頁腳 */}
         <footer className="bg-gray-800 text-white py-6">
